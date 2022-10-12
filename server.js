@@ -64,45 +64,54 @@ app.get("/registrierung", function(req, res){
     res.render(__dirname + "/views/registrierung.ejs");
 });
 
+app.get("/anmelden", function(req, res){
+    res.redirect("/loginformular")
+});
+
 
 // Post-Request
 
-app.post("/formularAuswertung", function(req, res){
+app.post("/loginformular", function(req, res){
     const benutzername = req.body.benutzername; // auch möglich = req["benutzername"]
     const passwort = req.body.passwort;
 
     //res.send(`Willkommen ${benutzername} ${passwort}`);
-    res.render("formularAuswertung", {"benutzername": benutzername, "passwort": passwort} );
+    if(anmeldungErfolgreich(benutzername,passwort)){
+        res.render("loginErfolgreich", {"benutzername": benutzername} )
+    }else {
+        res.render("loginFehlgeschlagen", {"benutzername": benutzername})
+    }
+    
 
-});
+}); 
 
+app.post("/registrierung", function(req, res){
+    const benutzername = req.body.benutzername; // auch möglich = req["benutzername"]
+    const passwort = req.body.passwort;
 
+    benutzerHinzufügen(benutzername,passwort)
+    res.send(`Willkommen ${benutzername} ${passwort}`);
+    
 
-app.post("/formularAuswertung", (req, res) =>{
-    function anmeldungErfolgreich (benutzername, passwort){
-        for(element of benutzerliste){
-            if (element.user === benutzername && element.key === passwort){
-                return res.send("Anmeldung erfolgreich");
-                };
-            
+}); 
+
+class benutzer {
+    constructor(user, key){
+        this.user = user;
+        this.key = key;
+    }
+};
+
+function anmeldungErfolgreich (benutzername, passwort){
+    for(element of benutzerliste){
+        if (element.user == benutzername && element.key == passwort){
+            return true;
             };
-            return res.send("Anmeldung fehlgeschlagen");
-
+        
         };
-    });
-app.post("/registrierung",(req, res) => {
-    function benutzerHinzufügen(benutzername, passwort){
-        let benutzer = {
-            user: benutzername, 
-            key: passwort};
-    
-        benutzerliste.push(benutzer);
-        return res.send("Benutzer hinzugefügt");
-    
-    };
-});    
+        return false;
 
-
+    }
 
 
 function benutzerExistiert(benutzername){
@@ -118,7 +127,14 @@ function benutzerExistiert(benutzername){
         }    
 
 
+function benutzerHinzufügen(benutzername, passwort){
+    let benutzer = {
+        user: benutzername, 
+        key: passwort};
 
+    benutzerliste.push(benutzer);
+
+};
 
 
 
