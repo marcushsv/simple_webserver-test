@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startseite | Marcus erste Webseite</title>
+  </head>
+
+  <style> 
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: aquamarine;
+      height: 50px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav {
+      float: right;
+      background-color: aquamarine;
+      
+
+    }
+
+    li {
+      display: inline;
+      margin: 15px;
+    }
+
+    nav a {
+      color: #353535;
+      display: inline-block;
+      text-decoration: none;
+      padding-top: 15px;
+    }
+
+    nav a:hover {
+      color: blueviolet;
+    }
+
+    nav a:active {
+      font-weight: bold ;
+    }
+
+    img {
+      width: 50px ;
+      padding: 1px;
+    }
+
+
+    @media screen and (max-width: 700px) {
+      nav {
+        width: 100%;
+        margin-top: -5px;
+      }
+
+      nav li {
+        display: block;
+        background-color:aqua;
+        text-align: center;
+
+      }
+      
+    }
+    * {
+      font-family: Montserrat, sans-serif;
+    }
+
+  </style>
+  <body style="background-color:powderblue ;">
+
+    <div class="navbar"> 
+      <img src="220px-Hamburg_HSV1950-1978.svg.png" alt="HSV Logo">
+      <nav>
+          <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/startseite">Startseite</a></li>
+            <li><a href="/helloworld">Hallo</a></li>
+            <li><a href="/static">Static</a></li>
+            <li><a href="/benutzerliste">Benutzerliste</a></li>
+            <li><a href="/registrierung">Registrierung</a></li>
+        </ul>
+      </nav>
+    </div>
+    <h1 style="background-color:palegoldenrod ;">Moinsen</h1>
+    <!-- Sichtbarer Dokumentinhalt im body -->
+    <p>Hier gibt es nichts zu sehen!!!
+        <p><a href="/login"> Hier gehts zur Registrierung</a>
+        </p>
+
+    
+   
+  </body>
+</html>

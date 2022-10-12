@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Benutzerliste</title>
+    
+    </head>
+    <body>
+        <h1>Liste aller Benutzer:</h1>
+        <table border="1">
+            <tr>
+                <th>Benutzer</th>
+                <th>Passwort</th>
+            </tr>
+            <% for(var i = 0; i < benutzerliste.length; i++){ %>
+                <tr>
+                    <td><%= benutzerliste[i].user %></td>
+                    <td><%= benutzerliste[i].key %></td>
+                </tr>
+            <%  } %>
+            
+        </table>
+</body>
+
+</html>
