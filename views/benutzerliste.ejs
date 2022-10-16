@@ -8,13 +8,15 @@
         <h1>Liste aller Benutzer:</h1>
         <table border="1">
             <tr>
+                <th>ID</th>
                 <th>Benutzer</th>
                 <th>Passwort</th>
             </tr>
-            <% for(var i = 0; i < benutzerliste.length; i++){ %>
+            <% for(var i = 0; i < user.length; i++){ %>
                 <tr>
-                    <td><%= benutzerliste[i].user %></td>
-                    <td><%= benutzerliste[i].key %></td>
+                    <td><%= user[i].id %></td>
+                    <td><%= user[i].benutzername %></td>
+                    <td><%= user[i].passwort %></td>
                 </tr>
             <%  } %>
             

@@ -2,6 +2,8 @@
 
 const express = require ("express");
 const app = express();
+app.use(express.urlencoded({extended: true}));
+
 
 // den Ordner public freigeben
 
@@ -9,8 +11,10 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views"));
 app.use(express.static(__dirname + "/images"));
 
-// body-parser
-app.use(express.urlencoded({extended: true}));
+// Initialisierung der Datenbank
+
+const DATABASE = "user_verwaltung.db";
+const db = require("better-sqlite3")(DATABASE);
 
 // initialisierung ejs
 
@@ -45,15 +49,17 @@ app.get("/login", function(req,res) {
 // GET Request benutzerliste 
 
 //benutzerliste hinzufügen
-let benutzerliste = [
-    {user: "Alice", key: "§$Y45/912v"},
-    {user: "Bob", key: "secret"},   
-    {user: "Carla", key: "123"},  
-    {user: "David", key: "divaD"}
-];
+// let benutzerliste = [
+//     {user: "Alice", key: "§$Y45/912v"},
+//     {user: "Bob", key: "secret"},   
+//     {user: "Carla", key: "123"},  
+//     {user: "David", key: "divaD"}
+// ];
 
 app.get("/benutzerliste", function(req, res){
-    res.render("benutzerliste", {"benutzerliste": benutzerliste});
+    const rows = db.prepare("SELECT * FROM user").all();
+    console.log(rows);
+    res.render("benutzerliste", {"user": rows});
 });
 // Loginformular get request
 app.get("/loginformular", function(req, res){
@@ -61,62 +67,66 @@ app.get("/loginformular", function(req, res){
 });
 
 app.get("/registrierung", function(req, res){
-    res.render(__dirname + "/views/registrierung.ejs");
+    res.render("registrierung.ejs");
 });
 
 app.get("/anmelden", function(req, res){
-    res.redirect("/loginformular")
+    res.redirect("/login")
 });
 
 
 // Post-Request
 
 app.post("/loginformular", function(req, res){
-    const benutzername = req.body.benutzername; // auch möglich = req["benutzername"]
-    const passwort = req.body.passwort;
+    const benutzer = req.body.benutzer; // auch möglich = req["benutzername"]
+    const password = req.body.password;
+    
 
     //res.send(`Willkommen ${benutzername} ${passwort}`);
-    if(anmeldungErfolgreich(benutzername,passwort)){
-        res.render("loginErfolgreich", {"benutzername": benutzername} )
+    if(anmeldungErfolgreich(benutzer,password)){
+        res.render("loginErfolgreich", {"benutzername": benutzer} )
     }else {
-        res.render("loginFehlgeschlagen", {"benutzername": benutzername})
+        res.render("loginFehlgeschlagen", {"benutzername": benutzer})
     }
     
 
 }); 
 
-app.post("/registrierung", function(req, res){
-    const benutzername = req.body.benutzername; // auch möglich = req["benutzername"]
-    const passwort = req.body.passwort;
+app.post("/hinzufuegen", function(req, res){
+    const benutzer = req.body.benutzer; // auch möglich = req["benutzername"]
+    const password = req.body.password;
 
-    benutzerHinzufügen(benutzername,passwort)
-    res.send(`Willkommen ${benutzername} ${passwort}`);
+    const info = db.prepare("INSERT INTO user(benutzername, passwort) VALUES(?, ?)").run(benutzer, password);
+    console.log(info);
+
+    res.redirect("/benutzerliste");
     
 
 }); 
 
-class benutzer {
-    constructor(user, key){
-        this.user = user;
-        this.key = key;
-    }
-};
+// class benutzer {
+//     constructor(benutzername, passwort){
+//         this.benutzername = benutzername;
+//         this.passwort = passwort;
+//     }
+// };
 
-function anmeldungErfolgreich (benutzername, passwort){
-    for(element of benutzerliste){
-        if (element.user == benutzername && element.key == passwort){
+function anmeldungErfolgreich (benutzer, password){
+    const rows = db.prepare('SELECT * FROM user').all();
+    for (element of rows){
+        if (element.benutzername == benutzer && element.passwort == password){
             return true;
             };
-        
-        };
+            
+    };
         return false;
 
-    }
+}
 
 
-function benutzerExistiert(benutzername){
-        for(benutzer of benutzerliste){
-            if (benutzer.user === benutzername)
+function benutzerExistiert(benutzer){
+        for(element of user){
+            if (element.benutzername === benutzer)
             {
                 return true;
             }
@@ -125,16 +135,6 @@ function benutzerExistiert(benutzername){
             return false;
     
         }    
-
-
-function benutzerHinzufügen(benutzername, passwort){
-    let benutzer = {
-        user: benutzername, 
-        key: passwort};
-
-    benutzerliste.push(benutzer);
-
-};
 
 
 
