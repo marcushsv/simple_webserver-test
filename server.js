@@ -16,10 +16,11 @@ app.use(express.static(__dirname + "/images"));
 const DATABASE = "user_verwaltung.db";
 const db = require("better-sqlite3")(DATABASE);
 
-// initialisierung ejs
+// initialisierung ej
 
 app.engine(".ejs", require("ejs").__express);
 app.set("view engine", "ejs");
+app.get()
 
 // startet Webserver
 app.listen(3000, function(){
