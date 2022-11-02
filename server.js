@@ -20,7 +20,6 @@ const db = require("better-sqlite3")(DATABASE);
 
 app.engine(".ejs", require("ejs").__express);
 app.set("view engine", "ejs");
-app.get()
 
 // startet Webserver
 app.listen(3000, function(){

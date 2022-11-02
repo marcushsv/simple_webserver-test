@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../sqlite_getting_started"
+		},
+		{
+			"path": "../../../../MGD"
+		}
+	],
+	"settings": {}
+}
