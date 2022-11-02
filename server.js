@@ -112,8 +112,8 @@ app.post("/hinzufuegen", function(req, res){
 // };
 
 function anmeldungErfolgreich (benutzer, password){
-    const rows = db.prepare('SELECT * FROM user').all();
-    for (element of rows){
+    const rows = db.prepare('SELECT pass FROM Benutzername WHERE Benutzername=?').all(benutzer);
+    for (element of rows){        
         if (element.benutzername == benutzer && element.passwort == password){
             return true;
             };
